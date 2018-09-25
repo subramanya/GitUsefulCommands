@@ -2,3 +2,18 @@ Get the list files changed in a commit id:
 git diff-tree --no-commit-id --name-only -r <bd61ad98>
  OR
 git show --pretty="" --name-only <bd61ad9> 
+
+==============================================
+Delete a remote GIT branch. 
+To delete a remote branch you can use the following command: git push <remote_name> --delete <branch_name> 
+============================================
+Delete merged branches
+You need to add below lines to .git/config file.
+
+[alias]
+  delete-merged-branches = "!f() { git checkout --quiet master && git branch --merged | grep --invert-match '\\*' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; f"
+
+Then can run this command to delete the merged branches:
+git delete-merged-branches
+The script worked masterfully -- all branches merged into master were gone and I was left to evaluate which local branches were left to send pull requests for.
+===========================================================
